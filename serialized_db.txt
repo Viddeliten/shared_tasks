@@ -1,4 +1,4 @@
-a:14:{i:0;a:2:{s:5:"Table";s:7:"comment";s:12:"Create Table";s:851:"CREATE TABLE IF NOT EXISTS `comment` (
+a:19:{i:0;a:2:{s:5:"Table";s:7:"comment";s:12:"Create Table";s:851:"CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `comment_type` varchar(64) COLLATE utf8_bin NOT NULL COMMENT 'Vad det är en kommentar på',
   `comment_on` int(11) NOT NULL COMMENT 'id för det det är en kommentar på',
@@ -111,7 +111,44 @@ a:14:{i:0;a:2:{s:5:"Table";s:7:"comment";s:12:"Create Table";s:851:"CREATE TABLE
   `opened` datetime DEFAULT NULL,
   `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:10;a:2:{s:5:"Table";s:4:"user";s:12:"Create Table";s:712:"CREATE TABLE IF NOT EXISTS `user` (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:10;a:2:{s:5:"Table";s:4:"task";s:12:"Create Table";s:386:"CREATE TABLE IF NOT EXISTS `task` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `creator` int(11) NOT NULL COMMENT 'user id',
+  `task_category_id` int(11) DEFAULT NULL,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:11;a:2:{s:5:"Table";s:13:"task_category";s:12:"Create Table";s:387:"CREATE TABLE IF NOT EXISTS `task_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `creator` int(11) NOT NULL COMMENT 'user id',
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin NOT NULL,
+  `assignment_length` int(11) NOT NULL DEFAULT '7' COMMENT 'days assigned to user',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:12;a:2:{s:5:"Table";s:24:"task_category_assignment";s:12:"Create Table";s:351:"CREATE TABLE IF NOT EXISTS `task_category_assignment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_category_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='used to show user what tasks they should do'";}i:13;a:2:{s:5:"Table";s:12:"task_history";s:12:"Create Table";s:522:"CREATE TABLE IF NOT EXISTS `task_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `operation` enum('DELETE','UPDATE') COLLATE utf8_bin NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `task_id` int(11) NOT NULL,
+  `creator` int(11) NOT NULL COMMENT 'user id',
+  `task_category_id` int(11) DEFAULT NULL,
+  `name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `description` text COLLATE utf8_bin,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:14;a:2:{s:5:"Table";s:18:"task_user_category";s:12:"Create Table";s:258:"CREATE TABLE IF NOT EXISTS `task_user_category` (
+  `id` int(11) NOT NULL,
+  `task_category_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='used to connect ownership between users and task categories'";}i:15;a:2:{s:5:"Table";s:4:"user";s:12:"Create Table";s:712:"CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `regdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `lastlogin` datetime DEFAULT NULL,
@@ -123,7 +160,7 @@ a:14:{i:0;a:2:{s:5:"Table";s:7:"comment";s:12:"Create Table";s:851:"CREATE TABLE
   `reputation` int(11) NOT NULL DEFAULT '0' COMMENT 'Used by some sites to value users',
   `inactive` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:11;a:2:{s:5:"Table";s:15:"user_reset_code";s:12:"Create Table";s:359:"CREATE TABLE IF NOT EXISTS `user_reset_code` (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:16;a:2:{s:5:"Table";s:15:"user_reset_code";s:12:"Create Table";s:359:"CREATE TABLE IF NOT EXISTS `user_reset_code` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
   `code` text CHARACTER SET latin1 NOT NULL,
@@ -131,12 +168,12 @@ a:14:{i:0;a:2:{s:5:"Table";s:7:"comment";s:12:"Create Table";s:851:"CREATE TABLE
   `used` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `reset_code_customer` (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:12;a:2:{s:5:"Table";s:7:"version";s:12:"Create Table";s:296:"CREATE TABLE IF NOT EXISTS `version` (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:17;a:2:{s:5:"Table";s:7:"version";s:12:"Create Table";s:296:"CREATE TABLE IF NOT EXISTS `version` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` float DEFAULT NULL COMMENT 'version',
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'när det blev denna version',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:13;a:2:{s:5:"Table";s:12:"version_done";s:12:"Create Table";s:520:"CREATE TABLE IF NOT EXISTS `version_done` (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin";}i:18;a:2:{s:5:"Table";s:12:"version_done";s:12:"Create Table";s:520:"CREATE TABLE IF NOT EXISTS `version_done` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `version` int(11) DEFAULT NULL COMMENT 'om null så är saken färdig, men version har inte ökat sen dess',
   `done_id` int(11) NOT NULL,
