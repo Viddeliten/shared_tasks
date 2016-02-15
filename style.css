@@ -1,3 +1,48 @@
+body
+{
+	/* padding-top: 0; */
+	min-height: 100%;
+}
+
+.navbar-default .navbar-collapse, .navbar-default
+{
+	background-color: white;
+}
+.navbar-default .navbar-collapse.in
+{	
+	-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+/*.navbar-toggle .icon-bar 
+{
+	background-color: rgba(13, 19, 62, 0.59);
+}
+.navbar-toggle
+{
+	background-color: rgba(154, 203, 234, 0.8);
+}
+
+.navbar-fixed-top .navbar-collapse {
+	background-color: white;
+}
+		
+.navbar-header
+{
+	height: 100px;
+} */
+
+#navbar-site-name.navbar-brand
+{
+	font-size: 3em;
+	font-style: italic;
+}
+
+#main_container
+{
+	margin-top: 0;
+	min-height: 100%;
+}
+
 .start-container
 {
 /*	background: transparent url("img/White-christmas-light-background.jpg") no-repeat fixed center center / cover; */
