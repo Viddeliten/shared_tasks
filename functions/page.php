@@ -15,7 +15,18 @@ function custom_page_display()
 			{
 				if(!strcmp($_GET['s'],"tasks"))
 				{
-					tasks_display_edit();
+					task_display_edit();
+					return TRUE;
+				}
+			}
+		}
+		else if(!strcmp($_GET['p'],"task"))
+		{
+			if(isset($_GET['s']))
+			{
+				if(!strcmp($_GET['s'],"add"))
+				{
+					task_display_add();
 					return TRUE;
 				}
 			}
