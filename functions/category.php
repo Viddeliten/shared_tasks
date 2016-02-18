@@ -17,7 +17,7 @@ function category_get($user_id, $category_id=NULL)
 	$sql="SELECT 
 		task_category.id,
 		task_category.creator,
-		IFNULL(task_category.name,'"._("Untitled")."') as name,
+		IFNULL(task_category.name,'"._("Untitled category")."') as name,
 		task_category.description,
 		task_category.assignment_length
 	FROM task_category 
@@ -26,7 +26,7 @@ function category_get($user_id, $category_id=NULL)
 	(creator=".sql_safe($user_id)."	OR task_user_category.user_id=".sql_safe($user_id).");";
 	if($cc=mysql_query($sql))
 	{
-		while($c=mysql_fetch_array($cc))
+		while($c=mysql_fetch_assoc($cc))
 		{
 			$return[]=$c;
 		}

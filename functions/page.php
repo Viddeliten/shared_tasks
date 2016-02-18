@@ -9,16 +9,10 @@ function custom_page_display()
 			page_display_about();
 			return TRUE;
 		}
-		else if(!strcmp($_GET['p'],"edit"))
+		else if(!strcmp($_GET['p'],"mytasks"))
 		{
-			if(isset($_GET['s']))
-			{
-				if(!strcmp($_GET['s'],"tasks"))
-				{
-					task_display_edit();
-					return TRUE;
-				}
-			}
+			task_display_user_tasks($_SESSION['user_id']);
+			return TRUE;
 		}
 		else if(!strcmp($_GET['p'],"task"))
 		{
@@ -27,6 +21,11 @@ function custom_page_display()
 				if(!strcmp($_GET['s'],"add"))
 				{
 					task_display_add();
+					return TRUE;
+				}
+				else if(!strcmp($_GET['s'],"edit"))
+				{
+					task_display_edit_single();
 					return TRUE;
 				}
 			}
