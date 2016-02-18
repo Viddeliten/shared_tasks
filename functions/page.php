@@ -30,6 +30,17 @@ function custom_page_display()
 				}
 			}
 		}
+		else if(!strcmp($_GET['p'],"category"))
+		{
+			if(isset($_GET['s']))
+			{
+				if(!strcmp($_GET['s'],"edit"))
+				{
+					category_display_edit();
+					return TRUE;
+				}
+			}
+		}
 		else if(!strcmp($_GET['p'],"stuff"))
 		{
 			if(isset($_GET['s']))

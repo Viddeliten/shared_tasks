@@ -48,14 +48,16 @@ function task_receive()
 				`description`='".sql_safe($_POST['description'])."';";
 				
 			if($sql!="")
+			{
 				message_try_mysql($sql,531220, _("Task saved"));
+			}
 		}
 	}
 }
 
 function task_display_user_tasks($user_id)
 {
-	echo "<h1>"._("Tasks")."</h2>";
+	echo "<h1>"._("Tasks")."</h1>";
 	
 	//Button to get to "add new task"-page
 	task_display_add_button();
@@ -65,7 +67,9 @@ function task_display_user_tasks($user_id)
 	if(!empty($tasks))
 	{
 		$category_id=$tasks[0]['task_category_id'];
-		echo '<h2>'.$tasks[0]['category_name'].'</h2>';
+		echo '<div class="category">';
+		echo '<h2>'.$tasks[0]['category_name']." ".category_get_edit_button($category_id).'</h2>';
+		echo '<p>'.$tasks[0]['category_description'].'</p>';
 		echo '<div class="row">';
 		$i=0;
 		foreach($tasks as $key => $task)
@@ -73,7 +77,9 @@ function task_display_user_tasks($user_id)
 			if($category_id!==$task['task_category_id'])
 			{
 				echo '</div>';
-				echo '<h2>'.$task['category_name'].'</h2>';
+				echo '</div>';
+				echo '<div class="category">';
+				echo '<h2>'.$task['category_name']." ".category_get_edit_button($task['task_category_id']).'</h2>';
 				echo '<div class="row">';
 				$category_id=$task['task_category_id'];
 			}
@@ -91,6 +97,7 @@ function task_display_user_tasks($user_id)
 			</div>';
 		}
 		echo '</div>';
+		echo '</div>';
 	}
 	
 }
@@ -105,7 +112,8 @@ function task_get($user_id, $task_id=NULL)
 	$return=array();
 	$sql="SELECT 
 		task.*,
-		IFNULL(task_category.name,'"._("Untitled category")."') as category_name
+		IFNULL(task_category.name,'"._("Untitled category")."') as category_name,
+		task_category.description as category_description
 	FROM task 
 	LEFT JOIN task_category ON task_category.id=task.task_category_id
 	LEFT JOIN task_user_category ON task_user_category.task_category_id=task.task_category_id

@@ -5,3 +5,4 @@
 // custom_receive();
 
 task_receive();
+category_receive();
